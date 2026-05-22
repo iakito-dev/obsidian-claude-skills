@@ -1,4 +1,7 @@
 {
+  "plugins": {
+    "html": true
+  },
   "rules": {
     "preset-ja-technical-writing": {
       "sentence-length": { "max": 120 },
