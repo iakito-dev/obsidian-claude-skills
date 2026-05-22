@@ -69,13 +69,16 @@ URL / 著者を frontmatter と本文の両方に残す。
 - 配置: 同じ `40_Articles/` 配下に MD と同名の `.html` を置く（例: `2026-05-22-スラッグ.html`）
 - MD からは `## 添付資料` セクションを設けて `[詳細解説](2026-05-22-スラッグ.html)` でリンク
 - HTML 本体の中身は **MD で書くと冗長になる視覚要素** に振る:
-  - Hero（記事タイトル + 著者 + 公開日 + 元記事リンク）
-  - 目次（アンカー付き）
-  - 著者主張のカード（アイコン + 短文）
-  - **著者主張 vs 自分の運用** の 2 カラム比較（`AGREE` / `PARTIAL AGREE` / `DISAGREE` ラベル）
-  - ポジションバイアス・記事に書かれていない前提を callout で強調
+  - Hero（記事タイトル + 著者 + 公開日 + `.source-link` で元記事へ）
+  - TOC（2 列 grid、ゼロパディング番号）
+  - 著者主張の `.grid-card`（番号付きラベル + 短文）
+  - **著者主張 vs 自分の運用** の `.compare-2`（`.verdict` agree / partial / disagree ピル）
+  - ポジションバイアス・記事に書かれていない前提を `.callout.warn` / `.callout.accent` で強調
   - 反論・疑問は記事の論点と並べて表形式に
-- スタイルは self-contained な `<style>` ブロック。ダークテーマ + アクセントカラーで読みやすく
+- **デザインは [templates/html-attachment-template.html](../templates/html-attachment-template.html) を必ず使う**:
+  - スキル実行時に Read してから書く（記憶や推測で CSS を書かない）
+  - CSS 変数・色トークン・フォント（Noto Sans JP）・レイアウト構造は変えない
+  - 重要語は `<span class="u">…</span>` でテラコッタ下線強調（Anthropic.com 風）
 - **MD の本文と内容を二重管理しない**: HTML は MD の補完。Source of Truth は MD 側、HTML はビジュアル解説に役割分担
 
 > 「記録は MD・対話は HTML」の発想。記事ノートは資産化が目的なので、検索・wiki link が効く MD が主、HTML は読み返し・他人への共有に効く副資料として置く。

@@ -1,0 +1,376 @@
+<!--
+  HTML 添付資料テンプレート — Anthropic.com 風の editorial design
+
+  /log-from-pr · /log-learning · /log-from-article から参照される共通テンプレ。
+  このファイル全体を「素体」として使い、コンテンツ部分（hero/sections）だけ
+  入れ替える。CSS 変数・トークン・レイアウト構造は変えないこと。
+
+  デザイン原則:
+  - Sandy beige 背景 (#f0ece4) + ダークインク + テラコッタアクセント
+  - Noto Sans JP 統一（Google Fonts CDN）+ JetBrains Mono コード
+  - 影なし、1px ヘアライン罫線、4px border-radius
+  - 編集デザイン: 罫線で区切り、行ベース、カードは控えめ
+  - キーワードを `.u` クラスで <span class="u">テラコッタ下線</span> 強調
+  - earthy palette: clay (主) / moss / gold / rust の4色のみ
+
+  コンテンツ構成（共通）:
+  - .eyebrow: 種別 + 日付
+  - h1: 大きな bold sans + `.u` で重要語を下線強調
+  - .lede: サブタイトル（max-width 600px）
+  - .meta: 横並びラベル + value
+  - .toc: 2 列 grid、ゼロパディング番号
+  - section + h2 (`<span class="num">01</span>タイトル` 形式)
+  - .callout (.accent / .warn / .good): 左 ribbon + label + lead
+  - .rule-card / .grid-card / .compare-col: 用途に応じて選ぶ
+  - hr.divider: section 間
+  - .footer-links: 行ベースの関連リソース
+
+  記事ノートの場合は .verdict (agree/partial/disagree) ピル を 2 カラム比較で使う
+  PR/イシューノートの場合は .rule-card の rule-no + Why/How meta-row を使う
+-->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Surfaces */
+    --bg: #f0ece4;
+    --bg-soft: #f5f1ea;
+    --paper: #faf7f1;
+    /* Ink */
+    --ink: #141413;
+    --ink-soft: #3a3a37;
+    --ink-muted: #6b6963;
+    /* Rules */
+    --rule: #d8d2c5;
+    --rule-soft: #e4ddd0;
+    /* Primary accent: clay/terracotta */
+    --clay: #cc785c;
+    --clay-strong: #b35a3f;
+    --clay-soft: #f0d7c8;
+    /* Secondary accents (use sparingly) */
+    --moss: #5d6a3a;
+    --moss-soft: #dfe2cf;
+    --rust: #a64426;
+    --rust-soft: #f0d8cf;
+    --gold: #a07d28;
+    --gold-soft: #ede1bc;
+    /* Code */
+    --code-bg: #1a1916;
+    --code-text: #efeae0;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  body {
+    margin: 0;
+    font-family: "Noto Sans JP", "Inter", -apple-system, BlinkMacSystemFont, "Hiragino Sans", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.65;
+    font-feature-settings: "palt";
+    font-size: 16px;
+    font-weight: 400;
+  }
+  .container { max-width: 760px; margin: 0 auto; padding: 64px 28px 96px; }
+
+  /* Eyebrow + 罫線 */
+  .eyebrow {
+    font-size: 12px; color: var(--clay-strong);
+    font-weight: 600; margin-bottom: 20px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .eyebrow::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+
+  /* キーワード下線強調 — Anthropic 流 */
+  .u {
+    text-decoration: underline;
+    text-decoration-color: var(--clay);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+
+  /* Hero */
+  .hero { margin-bottom: 56px; padding-bottom: 40px; border-bottom: 1px solid var(--rule); }
+  .hero h1 {
+    font-size: 48px; line-height: 1.12; margin: 0 0 24px;
+    letter-spacing: -0.02em; font-weight: 700; color: var(--ink);
+  }
+  .hero .lede {
+    font-size: 19px; line-height: 1.6; color: var(--ink-soft);
+    margin: 0 0 32px; font-weight: 400; max-width: 600px;
+  }
+  .hero .meta {
+    display: flex; flex-wrap: wrap; gap: 28px;
+    font-size: 13px; color: var(--ink-muted);
+  }
+  .hero .meta b {
+    display: block; font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.08em; font-weight: 600; color: var(--ink-muted);
+    margin-bottom: 4px;
+  }
+  .hero .meta .value { color: var(--ink); font-weight: 500; font-size: 14px; }
+  .hero .source-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--clay-strong); text-decoration: none; font-size: 14.5px;
+    font-weight: 600; border-bottom: 1px solid var(--clay); padding-bottom: 2px;
+  }
+  .hero .source-link:hover { background: var(--clay-soft); }
+
+  /* Section */
+  section { margin: 64px 0; }
+  h2 {
+    font-size: 32px; margin: 0 0 24px; letter-spacing: -0.018em;
+    font-weight: 700; color: var(--ink); line-height: 1.2;
+    display: flex; align-items: baseline; gap: 16px;
+  }
+  h2 .num {
+    display: inline-block; font-size: 13px; color: var(--clay-strong);
+    font-weight: 600; letter-spacing: 0.08em;
+  }
+  h3 { font-size: 19px; margin: 32px 0 10px; color: var(--ink); font-weight: 700; letter-spacing: -0.005em; }
+  p { margin: 12px 0; color: var(--ink); font-size: 16px; line-height: 1.7; }
+  p.dim { color: var(--ink-soft); }
+
+  /* Callout (accent / warn / good) */
+  .callout {
+    background: var(--paper); border: 1px solid var(--rule);
+    padding: 24px 28px; border-radius: 4px;
+    margin: 20px 0; font-size: 17px; line-height: 1.6;
+    position: relative;
+  }
+  .callout.accent { background: var(--clay-soft); border-color: var(--clay); }
+  .callout.accent::before { content: ""; position: absolute; left: -1px; top: -1px; bottom: -1px; width: 3px; background: var(--clay-strong); }
+  .callout.warn { background: var(--gold-soft); border-color: var(--gold); }
+  .callout.warn::before { content: ""; position: absolute; left: -1px; top: -1px; bottom: -1px; width: 3px; background: var(--gold); }
+  .callout.good { background: var(--moss-soft); border-color: var(--moss); }
+  .callout.good::before { content: ""; position: absolute; left: -1px; top: -1px; bottom: -1px; width: 3px; background: var(--moss); }
+  .callout .label {
+    display: inline-block; font-size: 11px; letter-spacing: 0.08em;
+    color: var(--clay-strong); font-weight: 700; margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .callout.warn .label { color: var(--gold); }
+  .callout.good .label { color: var(--moss); }
+  .callout p { margin: 0; }
+  .callout p.lead { font-size: 18px; line-height: 1.5; font-weight: 500; }
+  .callout strong { font-weight: 700; }
+
+  /* Code */
+  code { font-family: "JetBrains Mono", "SF Mono", ui-monospace, "Menlo", monospace; }
+  :not(pre) > code {
+    background: var(--bg-soft); color: var(--ink);
+    padding: 1px 7px; border-radius: 3px; font-size: 0.85em;
+    font-weight: 500; border: 1px solid var(--rule-soft);
+  }
+  pre {
+    background: var(--code-bg); border: none;
+    padding: 18px 20px; border-radius: 4px; overflow-x: auto;
+    font-size: 12.5px; line-height: 1.65; margin: 14px 0;
+    color: var(--code-text); font-weight: 400;
+    font-family: "JetBrains Mono", "SF Mono", ui-monospace, "Menlo", monospace;
+  }
+  pre.bad { box-shadow: inset 3px 0 0 var(--rust); }
+  pre.good { box-shadow: inset 3px 0 0 var(--moss); }
+  pre .c-comment { color: #9b8d7a; }
+  pre .c-key { color: #e0a78c; }
+  pre .c-str { color: #c4cf94; }
+
+  /* Blockquote */
+  blockquote {
+    border: none;
+    margin: 28px 0; padding: 0 0 0 24px;
+    color: var(--ink); font-weight: 500;
+    font-size: 22px; line-height: 1.45; letter-spacing: -0.01em;
+    border-left: 3px solid var(--clay);
+  }
+
+  /* Two-col compare (Before/After 等) */
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0; }
+  .compare h4 {
+    margin: 0 0 10px; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .compare .bad-h { color: var(--rust); }
+  .compare .good-h { color: var(--moss); }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 15px; }
+  th, td {
+    padding: 14px 18px 14px 0; text-align: left;
+    border-bottom: 1px solid var(--rule); vertical-align: top;
+  }
+  th {
+    color: var(--ink-muted); font-weight: 700; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 10px;
+  }
+  tr:last-child td { border-bottom: 1px solid var(--rule); }
+
+  /* Rule card (PR/Issue 用): rule-no + Why/How meta-row */
+  .rule-card {
+    background: var(--paper); border: 1px solid var(--rule);
+    border-radius: 4px; padding: 28px 32px; margin: 16px 0;
+  }
+  .rule-card .rule-no {
+    display: inline-block; font-size: 11px; color: var(--clay-strong); font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding-bottom: 6px; border-bottom: 1px solid var(--clay);
+    margin-bottom: 14px;
+  }
+  .rule-card h3 {
+    margin: 6px 0 18px; font-size: 22px; letter-spacing: -0.01em; font-weight: 700;
+    line-height: 1.3;
+  }
+  .rule-card .meta-row {
+    margin: 12px 0; padding: 14px 18px;
+    background: var(--bg); border-left: 2px solid var(--rule);
+    font-size: 15px; color: var(--ink-soft); line-height: 1.6;
+  }
+  .rule-card .meta-row.why { border-left-color: var(--clay); }
+  .rule-card .meta-row.how { border-left-color: var(--moss); }
+  .rule-card .meta-row strong {
+    color: var(--ink); font-weight: 700; margin-right: 10px;
+    font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.08em;
+  }
+
+  /* Grid card (記事/特徴 4 列等) */
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 20px 0; }
+  .grid-card { background: var(--paper); border: 1px solid var(--rule); border-radius: 4px; padding: 24px 26px; }
+  .grid-card .num {
+    font-size: 11px; color: var(--clay-strong); font-weight: 700;
+    margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.08em;
+    padding-bottom: 6px; border-bottom: 1px solid var(--clay);
+    display: inline-block;
+  }
+  .grid-card h4 { margin: 10px 0 8px; font-size: 19px; color: var(--ink); font-weight: 700; letter-spacing: -0.005em; line-height: 1.3; }
+  .grid-card p { font-size: 14.5px; color: var(--ink-soft); margin: 0; line-height: 1.6; }
+
+  /* TOC */
+  .toc {
+    margin: 0 0 56px; padding: 24px 0;
+    border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+  }
+  .toc h4 {
+    margin: 0 0 16px; font-size: 11px; letter-spacing: 0.08em;
+    color: var(--ink-muted); text-transform: uppercase; font-weight: 700;
+  }
+  .toc ol {
+    margin: 0; padding: 0; list-style: none;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 32px;
+    color: var(--ink); font-size: 15.5px;
+    counter-reset: toc-counter;
+  }
+  .toc li { counter-increment: toc-counter; padding-left: 40px; position: relative; line-height: 1.7; }
+  .toc li::before {
+    content: counter(toc-counter, decimal-leading-zero);
+    position: absolute; left: 0; top: 4px;
+    font-size: 11px; color: var(--clay-strong); font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .toc a { color: var(--ink); text-decoration: none; border-bottom: 1px solid transparent; }
+  .toc a:hover { border-bottom-color: var(--clay); }
+
+  /* Compare 2-col (記事ノート: 著者主張 vs 自分の運用) */
+  .compare-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 20px 0; }
+  .compare-col {
+    padding: 26px 28px; border-radius: 4px;
+    background: var(--paper); border: 1px solid var(--rule);
+  }
+  .compare-col h4 { margin: 10px 0; font-size: 20px; font-weight: 700; color: var(--ink); letter-spacing: -0.005em; }
+  .compare-col p { font-size: 14.5px; margin: 8px 0; line-height: 1.6; }
+  .compare-col p.dim { color: var(--ink-soft); }
+
+  /* Verdict pill */
+  .verdict {
+    display: inline-block; padding: 4px 12px; border-radius: 999px;
+    font-size: 10.5px; letter-spacing: 0.08em; font-weight: 700; text-transform: uppercase;
+  }
+  .verdict.agree { background: var(--moss-soft); color: var(--moss); }
+  .verdict.partial { background: var(--gold-soft); color: var(--gold); }
+  .verdict.disagree { background: var(--rust-soft); color: var(--rust); }
+
+  hr.divider { border: none; height: 1px; background: var(--rule); margin: 48px 0; }
+
+  /* Footer links — 行ベース */
+  .footer-links { display: grid; grid-template-columns: 1fr; gap: 0; margin-top: 20px; border-top: 1px solid var(--rule); }
+  .footer-links a {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 0;
+    color: var(--ink); text-decoration: none; font-size: 16px;
+    border-bottom: 1px solid var(--rule);
+    transition: padding .15s, color .15s;
+  }
+  .footer-links a:hover { padding-left: 8px; color: var(--clay-strong); }
+  .footer-links a .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-muted); margin-right: 16px; font-weight: 700; min-width: 110px; display: inline-block; }
+  .footer-links a .arrow { color: var(--clay); font-size: 18px; }
+
+  ul, ol { padding-left: 22px; }
+  li { margin: 6px 0; font-size: 16px; }
+
+  @media (max-width: 680px) {
+    .compare, .compare-2, .grid, .toc ol { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 32px; }
+    .hero .lede { font-size: 17px; }
+    h2 { font-size: 26px; }
+    .container { padding: 36px 20px 64px; }
+    .hero .meta { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="eyebrow">{{KIND}} · {{DATE}}</div>
+    <h1>{{TITLE}}<!-- 重要語は <span class="u">…</span> でテラコッタ下線強調 --></h1>
+    <p class="lede">{{LEDE}}</p>
+    <div class="meta">
+      <div><b>Label A</b><span class="value">…</span></div>
+      <div><b>Label B</b><span class="value">…</span></div>
+    </div>
+    <!-- 記事ノートのみ: <a class="source-link" href="…">元記事を読む →</a> -->
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <h4>Contents</h4>
+    <ol>
+      <li><a href="#sec1">セクション 1</a></li>
+      <li><a href="#sec2">セクション 2</a></li>
+    </ol>
+  </div>
+
+  <!-- SECTION 例 -->
+  <section id="sec1">
+    <h2><span class="num">01</span>セクション見出し</h2>
+    <div class="callout accent">
+      <span class="label">Core idea</span>
+      <p class="lead">中心的主張をここに。<span class="u">重要語は下線</span>。</p>
+    </div>
+    <p>本文…</p>
+  </section>
+
+  <hr class="divider">
+
+  <!-- 他のセクション (rule-card / grid / compare-2 / table 等を適宜使う) -->
+
+  <!-- FOOTER LINKS -->
+  <section>
+    <h2><span class="num">99</span>関連リソース</h2>
+    <div class="footer-links">
+      <a href="#"><span><span class="lbl">Source</span>…</span><span class="arrow">→</span></a>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

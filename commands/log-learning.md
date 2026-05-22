@@ -123,8 +123,9 @@ obsidian-vault/
 #### `## 添付資料`（任意）
 図解や Before/After 比較が学びを深める場合、**リッチな解説 HTML を添付ファイル** として併置する。
 - 配置: 同じフォルダに `<ISSUE-ID>.html`、MD から `[詳細解説](<ISSUE-ID>.html)` でリンク
-- 役割分担: MD は要約 + wiki link、HTML は視覚解説（hero / 目次 / Before-After 2 カラム / Why-How カード / callout）
-- self-contained な `<style>` を含む単一 HTML。Source of Truth は MD 側、HTML は補完
+- 役割分担: MD は要約 + wiki link、HTML は視覚解説（hero / TOC / Before-After 2 カラム / `.rule-card` Why-How / `.callout`）
+- **デザインは [templates/html-attachment-template.html](../templates/html-attachment-template.html) を必ず使う**: スキル実行時に Read してから書く。CSS 変数・色トークン・フォント（Noto Sans JP）・レイアウト構造は変えない。重要語は `<span class="u">…</span>` でテラコッタ下線強調
+- Source of Truth は MD 側、HTML は補完（同じ情報を両方に書かない）
 
 ```markdown
 ## 参考・学び

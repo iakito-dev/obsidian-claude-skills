@@ -116,12 +116,15 @@ PR の規模が大きい・図解や Before/After 比較が学びを深める場
 - 配置: MD と同じ `10_Issues/cycle-<N>/` 配下に `<ISSUE-ID>.html` を置く
 - MD からは `[詳細解説](<ISSUE-ID>.html)` でリンク
 - HTML 本体の中身は **MD で書くと冗長になる視覚要素** に振る:
-  - Hero（タイトル + メタ情報）
-  - 目次（アンカー付き）
-  - Before/After の 2 カラム比較（pre タグ + 色分け）
-  - ルールごとのカード（Why / How を分けて提示）
-  - callout（Core Idea / Gotcha / Insight）
-- スタイルは self-contained な `<style>` ブロック。ダークテーマ + アクセントカラーで読みやすく
+  - Hero（タイトル + メタ情報）+ TOC（2 列 grid、ゼロパディング番号）
+  - Before/After の 2 カラム比較（`.compare` クラス、pre タグ + bad/good 色分け）
+  - ルールごとの `.rule-card`（rule-no chip + Why/How `.meta-row`）
+  - `.callout`（`.accent` / `.warn` / `.good`）— Core Idea / Gotcha / Insight
+- **デザインは [templates/html-attachment-template.html](../templates/html-attachment-template.html) を必ず使う**:
+  - スキル実行時に Read してから書く（記憶や推測で CSS を書かない）
+  - CSS 変数・色トークン・フォント（Noto Sans JP）・レイアウト構造は変えない
+  - `{{TITLE}}` / `{{KIND}}` / `{{DATE}}` / `{{LEDE}}` を置換、コンテンツセクションを差し込む
+  - 重要語は `<span class="u">…</span>` でテラコッタ下線強調（Anthropic.com 風）
 - **MD の本文と内容を二重管理しない**: HTML は MD の補完。同じ情報を両方に書かず、MD は要約+リンク、HTML はビジュアル解説に役割分担
 
 > HTML はあくまで「視覚的に理解を助ける添付資料」であり、Source of Truth は MD 側。HTML 単体で完結させる必要はない。
