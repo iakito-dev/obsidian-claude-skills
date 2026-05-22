@@ -1,0 +1,11 @@
+{
+  "rules": {
+    "preset-ja-technical-writing": {
+      "sentence-length": { "max": 120 },
+      "max-comma": { "max": 4 },
+      "max-ten": { "max": 4 },
+      "no-exclamation-question-mark": false
+    },
+    "preset-ai-writing": true
+  }
+}

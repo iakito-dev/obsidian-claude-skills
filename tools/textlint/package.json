@@ -1,0 +1,18 @@
+{
+  "name": "obsidian-claude-skills-textlint",
+  "version": "1.0.0",
+  "private": true,
+  "description": "textlint runtime for /check-ja skill (Japanese tech writing + AI writing detection)",
+  "engines": {
+    "node": ">=18.14.0"
+  },
+  "scripts": {
+    "lint": "textlint",
+    "fix": "textlint --fix"
+  },
+  "devDependencies": {
+    "textlint": "^15.0.0",
+    "textlint-rule-preset-ja-technical-writing": "^12.0.0",
+    "textlint-rule-preset-ai-writing": "^1.1.0"
+  }
+}
