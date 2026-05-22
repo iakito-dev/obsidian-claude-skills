@@ -120,6 +120,12 @@ obsidian-vault/
 - **「3年後の自分・別プロジェクト・別言語でも使えるか?」** をフィルタにする
 - 各項目の先頭に `(YYYY-MM-DD)` を付けると追記履歴が残る
 
+#### `## 添付資料`（任意）
+図解や Before/After 比較が学びを深める場合、**リッチな解説 HTML を添付ファイル** として併置する。
+- 配置: 同じフォルダに `<ISSUE-ID>.html`、MD から `[詳細解説](<ISSUE-ID>.html)` でリンク
+- 役割分担: MD は要約 + wiki link、HTML は視覚解説（hero / 目次 / Before-After 2 カラム / Why-How カード / callout）
+- self-contained な `<style>` を含む単一 HTML。Source of Truth は MD 側、HTML は補完
+
 ```markdown
 ## 参考・学び
 - (2026-05-18) CSS の優先順位の仕組みを理解 → [[CSS Specificity と Cascade]]
